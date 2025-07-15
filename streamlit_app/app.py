@@ -1,12 +1,10 @@
-# ✅ Features Included:
-# Default Last 7 Days Date Range
-# Sensor-Level Summary Table
-# Show/Hide Raw Data
-# Download Filtered Data only
-# Improved UX messages & checks
-
 import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.data_processing import preprocess_sensor_data, detect_faults
+from utils.db_manager import init_db, insert_sensor_data
+
 from datetime import timedelta
 import streamlit as st
 import pandas as pd
@@ -14,12 +12,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import logging
 
-# Path and imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.data_processing import preprocess_sensor_data, detect_faults
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Initialize DB
+init_db()
 
 # Streamlit page config
 st.set_page_config(page_title="Sensor Fault Detector", layout="wide")
@@ -57,19 +54,15 @@ if uploaded_file:
         df['Timestamp'] = pd.to_datetime(df['Timestamp'], errors='coerce')
         df.dropna(subset=['Timestamp'], inplace=True)
 
-        # Date Range Filter
+        # ✅ Store Processed Data in DB
+        insert_sensor_data(df)
+
         # 📅 Filter by Date Range
         st.subheader("📅 Filter by Date Range")
         min_date = df['Timestamp'].min().date()
         max_date = df['Timestamp'].max().date()
+        default_start = max_date - timedelta(days=7) if (max_date - min_date).days >= 7 else min_date
 
-        # Adjust default range
-        if (max_date - min_date).days >= 7:
-             default_start = max_date - timedelta(days=7)
-    
-        else:
-             default_start = min_date
-    
         start_date, end_date = st.date_input(
             "Select date range:",
             [default_start, max_date],
@@ -78,8 +71,8 @@ if uploaded_file:
         )
 
         if start_date == end_date:
-             st.error("⚠️ Please select a valid date range (Start and End dates must be different).")
-             st.stop()
+            st.error("⚠️ Please select a valid date range (Start and End dates must be different).")
+            st.stop()
 
         mask = (df['Timestamp'].dt.date >= start_date) & (df['Timestamp'].dt.date <= end_date)
         df = df[mask]
