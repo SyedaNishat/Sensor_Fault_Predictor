@@ -9,28 +9,44 @@ A **Streamlit-based interactive dashboard** to detect, classify, visualize, and 
 This dashboard allows users to:
 
 * Upload sensor CSV files
+  
 * Preprocess and reshape data for analysis
+  
 * Detect and classify sensor faults
+  
 * Visualize sensor trends and fault patterns
+  
 * Understand fault severity breakdown
+  
 * Store and retrieve data in a SQLite database
+  
 * Export filtered, processed data
 
 ---
 
 ##  Features
 
-👉 File upload with validation
-👉 Preprocessing (wide-to-long format)
-👉 Fault classification (`Very Low`, `Low`, `Normal`, `High`, `Very High`)
-👉 Severity tagging (`None`, `Warning`, `Critical`)
-👉 Date range filtering (default: last 7 days)
-👉 Sensor-wise fault summary
-👉 Line plots for sensor readings
-👉 Bar charts for fault distribution
-👉 SQLite database integration
-👉 Filtered CSV export
-👉 Clean, recruiter-friendly UI
+-> File upload with validation
+
+-> Preprocessing (wide-to-long format)
+
+-> Fault classification (`Very Low`, `Low`, `Normal`, `High`, `Very High`)
+
+-> Severity tagging (`None`, `Warning`, `Critical`)
+
+-> Date range filtering (default: last 7 days)
+
+-> Sensor-wise fault summary
+
+-> Line plots for sensor readings
+
+-> Bar charts for fault distribution
+
+-> SQLite database integration
+
+-> Filtered CSV export
+
+-> Clean, recruiter-friendly UI
 
 ---
 
