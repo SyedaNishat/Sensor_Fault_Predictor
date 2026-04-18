@@ -2,8 +2,6 @@
 
 A **Streamlit-based interactive dashboard** to detect, classify, visualize, and export sensor faults using real-time data analysis, fault severity classification, and database integration.
 
----
-
 ## Project Overview
 
 This dashboard allows users to:
